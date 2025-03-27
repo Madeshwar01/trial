@@ -1,0 +1,124 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+USE std.textio.ALL;
+
+ENTITY fft_tb IS
+END ENTITY fft_tb;
+
+ARCHITECTURE Behavioral OF fft_tb IS
+
+    -- DUT Component Declaration
+    COMPONENT fft_top
+        PORT (
+            clk             : IN  STD_LOGIC;
+            reset           : IN  STD_LOGIC;
+            config_data     : IN  STD_LOGIC_VECTOR(15 DOWNTO 0);
+            config_valid    : IN  STD_LOGIC;
+            data_in         : IN  STD_LOGIC_VECTOR(31 DOWNTO 0);
+            data_in_valid   : IN  STD_LOGIC;
+            data_last       : IN  STD_LOGIC;
+            data_out        : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+            data_out_valid  : OUT STD_LOGIC
+        );
+    END COMPONENT;
+    
+    -- Signals
+    SIGNAL clk           : STD_LOGIC := '0';
+    SIGNAL reset         : STD_LOGIC := '0';
+    SIGNAL config_data   : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
+    SIGNAL config_valid  : STD_LOGIC := '0';
+    SIGNAL data_in       : STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => '0');
+    SIGNAL data_in_valid : STD_LOGIC := '0';
+    SIGNAL data_last     : STD_LOGIC := '0';
+    SIGNAL data_out      : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL data_out_valid: STD_LOGIC;
+
+    CONSTANT clk_period : TIME := 10 ns; -- 100 MHz Clock
+
+BEGIN
+
+    -- Instantiate FFT DUT
+    dut: fft_top
+    PORT MAP (
+        clk           => clk,
+        reset         => reset,
+        config_data   => config_data,
+        config_valid  => config_valid,
+        data_in       => data_in,
+        data_in_valid => data_in_valid,
+        data_last     => data_last,
+        data_out      => data_out,
+        data_out_valid=> data_out_valid
+    );
+
+    -- Clock Process
+    clk_process : PROCESS
+    BEGIN
+        WHILE NOW < 2 ms LOOP
+            clk <= '0';
+            WAIT FOR clk_period / 2;
+            clk <= '1';
+            WAIT FOR clk_period / 2;
+        END LOOP;
+        WAIT;
+    END PROCESS;
+
+    -- Stimulus Process
+    stimulus_process : PROCESS
+        FILE input_file : TEXT OPEN READ_MODE IS "signal_input.txt";
+        VARIABLE line_buf : LINE;
+        VARIABLE data_val : INTEGER;
+    BEGIN
+        -- Apply Reset
+        reset <= '1';
+        WAIT FOR 100 ns;
+        reset <= '0';
+
+        -- Configuration Data (Send before input)
+        config_valid <= '1';
+        config_data  <= X"000A"; 
+        WAIT FOR clk_period;
+        config_valid <= '0';
+
+        -- Wait for FFT IP to be ready
+        WAIT FOR 50 ns;
+
+        -- Read and Apply Input Data
+        WHILE NOT endfile(input_file) LOOP
+            READLINE(input_file, line_buf);
+            READ(line_buf, data_val);
+            
+            -- Convert input data to 32-bit signed format
+            data_in  <= STD_LOGIC_VECTOR(TO_SIGNED(data_val, 32));
+            data_in_valid <= '1';
+            data_last <= '0';
+
+            -- Wait for a clock cycle
+            WAIT UNTIL rising_edge(clk);
+            
+            data_in_valid <= '0';
+        END LOOP;
+
+        -- Indicate last data sample
+        data_last <= '1';
+        WAIT FOR clk_period;
+        data_last <= '0';
+
+        -- Wait for FFT processing
+        WAIT FOR 1 us;
+
+        -- Stop Simulation
+        REPORT "Simulation finished";
+        WAIT;
+    END PROCESS stimulus_process;
+
+    -- Output Monitoring Process
+    output_process: PROCESS
+    BEGIN
+        WAIT UNTIL data_out_valid = '1';
+        REPORT "FFT Output: " & INTEGER'IMAGE(to_integer(signed(data_out)));
+        WAIT FOR clk_period;
+    END PROCESS;
+
+END ARCHITECTURE Behavioral;
