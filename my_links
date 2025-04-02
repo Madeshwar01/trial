@@ -1,2 +1,14 @@
 interfacing protocols: https://www.linkedin.com/posts/silliconbharat_1728844116363pdf-activity-7308171516767064067-289e/?rcm=ACoAADdpP2ABTFW3tIJPaXMh5_Iky1FxNRJbdkw
 (SCM tools)git - Atlassian course : https://www.atlassian.com/git/tutorials/git-prune
+
+AXI : https://adaptivesupport.amd.com/s/article/1053914?language=en_US
+
+ZYNQ 7000 SOC examples : https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/394854562/Zynq-7000+Example+Designs
+amd information panel for zynq soc : https://docs.amd.com/v/u/en-US/dh0050-zynq-7000-design-overview-hub
+
+
+
+ Eda tools : yosys, magicflow, opensta, openlane, GTK wave, Cadence virtuoso, Vivado design suite, Vitis
+ FPGA boards : Zynq 7000 SOC, Numato Styx Z7 , Pynq Z2, Basys 3.
+ uc & up : Raspberry bi, Vvm501 ESP32 4G LTE SIM A7672, 
+Protocols: UART, SPI, AXI 
