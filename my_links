@@ -12,3 +12,67 @@ amd information panel for zynq soc : https://docs.amd.com/v/u/en-US/dh0050-zynq-
  FPGA boards : Zynq 7000 SOC, Numato Styx Z7 , Pynq Z2, Basys 3.
  uc & up : Raspberry bi, Vvm501 ESP32 4G LTE SIM A7672, 
 Protocols: UART, SPI, AXI 
+
+
+
+
+
+
+
+
+
+
+1. Embedded Systems Engineer (FPGA-focused)
+What you’ll do:
+
+Develop applications on Zynq-7000 / Zynq UltraScale+ SoCs
+
+Use Vitis for software development and Vivado for PL (FPGA) logic
+
+Handle DMA, BRAM, AXI interfaces, interrupt handling, etc.
+
+Typical industries: Aerospace, Automotive, IoT, Medical, Defense
+
+💼 2. FPGA Design & Verification Engineer
+What you’ll do:
+
+Design RTL modules in VHDL/Verilog, integrate with ARM cores on Zynq
+
+Validate data paths using Vitis and Xilinx IPs (e.g., FFT, DMA, AXI)
+
+Write test benches and perform co-simulation with PS-PL components
+
+Bonus: If you're familiar with AXI protocols, SystemVerilog, and UVM, you're golden.
+
+💼 3. Embedded Linux Developer on FPGA
+What you’ll do:
+
+Bring up PetaLinux or Yocto on Zynq SoCs
+
+Develop device drivers, Linux apps using Vitis or SDK
+
+Interface with custom PL logic via AXI, DMA
+
+Relevant if: You’re into lower-level Linux + FPGA interfacing.
+
+💼 4. SoC Application Engineer / Field Applications Engineer (FAE)
+What you’ll do:
+
+Support customers using Zynq SoC in real applications
+
+Create demos and reference designs using Vitis
+
+Work with Vivado block design, device trees, and bare-metal/PetaLinux
+
+Key skill: Strong communication + Zynq expertise
+
+💼 5. R&D / Signal Processing Engineer (on FPGA)
+What you’ll do:
+
+Implement algorithms (e.g., FFT, filters, neural nets) on Zynq PL
+
+Use Vitis HLS, Vitis AI, or custom RTL
+
+Benchmark performance and resource usage
+
+Typical domains: Radar, EEG/ECG, SDR, computer vision
